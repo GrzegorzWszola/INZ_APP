@@ -1,0 +1,29 @@
+{
+  "global": {
+    "source": "cr4_narr test, predictions of deberta-vad-seed42",
+    "n_samples": 11401,
+    "v_edges": [
+      -0.4294,
+      -0.2409,
+      -0.0006,
+      0.294
+    ],
+    "a_edges": [
+      0.0819,
+      0.3387
+    ]
+  },
+  "per_book": {
+    "enabled": true,
+    "v_quantiles": [
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "a_quantiles": [
+      0.33,
+      0.66
+    ]
+  }
+}

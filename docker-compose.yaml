@@ -1,0 +1,50 @@
+services:
+  backend:
+    build: ./backend/
+    command: uvicorn backend.src.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/code/backend
+      - bookdata:/app/data
+    env_file: ./backend/.env
+    environment:
+      DATA_DIR: /app/data
+      NLP_URL: "http://nlp:8008"
+      CORS_ORIGINS: http://localhost:8080,http://localhost:5173
+
+  nlp:
+    build: ./NLP/
+    command: uvicorn src.app.main:app --host 0.0.0.0 --port 8008
+    env_file: ./NLP/.env
+    environment:
+      MODEL_PATH: /models/vad/deberta-vad-seed42
+    volumes:
+      - ./NLP/models/vad:/models/vad:ro
+
+  frontend:
+    build:
+      context: ./frontend/
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+        VITE_MUSIC_ORIGIN: ${VITE_MUSIC_ORIGIN:-http://localhost:8800}
+        VITE_MANIFEST: ${VITE_MANIFEST:-http://localhost:8800/manifest.jsonl}
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  nginx:
+    build: ./music_server/
+    ports:
+      - "8800:80"
+    environment:
+      CORS_ORIGIN: "http://localhost:8080"
+      CACHE_MAX_AGE: "31536000"
+    volumes:
+      - ./music:/usr/share/nginx/html/music:ro
+    restart: unless-stopped
+
+volumes:
+  bookdata:
