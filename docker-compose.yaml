@@ -20,7 +20,7 @@ services:
     environment:
       MODEL_PATH: /models/vad/deberta-vad-seed42
     volumes:
-      - ./NLP/models/vad:/models/vad:ro
+      - ./NLP/models/:/models/vad:ro
 
   frontend:
     build:

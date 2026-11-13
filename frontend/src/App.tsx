@@ -125,13 +125,13 @@ function App() {
             setPrediction(null);
           }}
           onVisibleSentences={handleVisibleSentences}
-        />
-      )}
-      {openBook && (
-        <MusicPlayer 
-          prediction={prediction} 
-          manifest={manifest} 
-          musicBase={MUSIC_BASE}
+          headerExtra={
+            <MusicPlayer 
+              prediction={prediction} 
+              manifest={manifest} 
+              musicBase={MUSIC_BASE}
+            />
+          }
         />
       )}
 

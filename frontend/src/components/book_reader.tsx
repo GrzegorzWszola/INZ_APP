@@ -6,6 +6,7 @@ type Props = {
   onClose: () => void;
   /** Called whenever the visible + lookahead sentence IDs change */
   onVisibleSentences?: (ids: number[]) => void;
+  headerExtra?: React.ReactNode;
 };
 
 // ─── helpers ────────────────────────────────────────────────────────────────
@@ -38,7 +39,7 @@ function buildPages(paragraphs: Paragraph[], heights: number[], maxHeight: numbe
 
 // ─── component ──────────────────────────────────────────────────────────────
 
-export default function BookReader({ content, onClose, onVisibleSentences }: Props) {
+export default function BookReader({ content, onClose, onVisibleSentences, headerExtra }: Props) {
   const { metadata, chapters } = content;
   const [chapterIdx, setChapterIdx] = useState(0);
   const [pageIdx, setPageIdx] = useState(0);
@@ -118,9 +119,12 @@ export default function BookReader({ content, onClose, onVisibleSentences }: Pro
         <div style={styles.headerMeta}>
           {metadata.num_chapters} chapters · {metadata.num_sentences} sentences
         </div>
-        <button style={{ ...styles.iconBtn, marginLeft: "auto" }} onClick={onClose} title="Close reader">
-          ✕
-        </button>
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: 14 }}>
+          {headerExtra}
+          <button style={styles.iconBtn} onClick={onClose} title="Close reader">
+            ✕
+          </button>
+        </div>
       </div>
 
       <div style={styles.body}>
