@@ -1,0 +1,26 @@
+    # --- Podstawa API & Baza danych (Backend + NLP) ---
+    fastapi
+    uvicorn[standard]
+    sqlalchemy
+    sqlmodel
+    psycopg[binary]
+    pydantic-settings
+    alembic
+    python-multipart
+    httpx
+
+    # --- Zależności Backend ---
+    git+https://github.com/GrzegorzWszola/book_parser.git@main#egg=book-parser
+    
+    # --- Zależności NLP ---
+    numpy
+    transformers
+    sentencepiece
+    protobuf
+    tiktoken
+    torch
+
+    # --- Narzędzia testowe (Backend + NLP) ---
+    pytest
+    pytest-asyncio
+    pytest-cov

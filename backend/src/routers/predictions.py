@@ -20,8 +20,8 @@ logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/predictions", tags=["predictions"])
 
 @router.post("/{job_id}")
-def predict_value(job_id: str, session: SessionDep, sid: CookieDep, body: PredictionRequest):
-    book = session.exec(select(Book).where(Book.job_id == job_id, Book.browser_id == sid))
+def predict_value_endpoint(job_id: str, session: SessionDep, sid: CookieDep, body: PredictionRequest):
+    book = session.exec(select(Book).where(Book.job_id == job_id, Book.browser_id == sid)).first()
     if book is None:
         logger.warning("Prediction requested for unknown book: %s", job_id)
         raise HTTPException(404, "Unknown book")
@@ -53,6 +53,8 @@ def predict_value(sentences: list[int], job_id: str):
     }
 
     labels, label_count = assign_labels(vad_values, config["centroids"], config["center"], config["r_neutral"])
+    print(label_count)
+    print(labels)
     top, p1, margin = decide_label(label_count)
 
     return top, p1, margin
